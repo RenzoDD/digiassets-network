@@ -29,6 +29,24 @@ BEGIN
 	LIMIT   1;
 END //
 
+DROP PROCEDURE IF EXISTS DigiAssets_Read_DigiAssetID //
+CREATE PROCEDURE DigiAssets_Read_DigiAssetID ( IN DigiAssetID INTEGER )
+BEGIN
+    SELECT  COUNT(*) AS Quantity
+    FROM    DigiAssets AS DA
+    WHERE   DA.DigiAssetID = DigiAssetID
+    LIMIT   1;
+END //
+
+DROP PROCEDURE IF EXISTS DigiAssets_Read_AssetID //
+CREATE PROCEDURE DigiAssets_Read_AssetID ( IN AssetID VARCHAR(64) )
+BEGIN
+    SELECT  COUNT(*) AS Quantity
+    FROM    DigiAssets AS DA
+    WHERE   DA.AssetID = AssetID
+    LIMIT   1;
+END //
+
 DROP PROCEDURE IF EXISTS DigiAssets_Read_Quantity //
 CREATE PROCEDURE DigiAssets_Read_Quantity ( )
 BEGIN
