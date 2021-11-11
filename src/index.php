@@ -14,3 +14,6 @@ require_once __CONTROLLER__ . "/WebSiteController.php";
 route("/", function () {
     WebSiteController::Home();
 });
+route("/asset/:asset", function () {
+    WebSiteController::Asset($_GET["asset"]);
+});

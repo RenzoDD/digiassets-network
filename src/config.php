@@ -1,12 +1,8 @@
 <?php
 
-define("EM_HOST", "");    //Mail server address
-define("EM_PORT", 465);   //Email Port
-define("EM_SAVE", "ssl"); //Encryption
-
-define("DB_HOST", ""); //Database server address
-define("DB_NAME", ""); //Database name
-define("DB_USER", ""); //Database user
+define("DB_HOST", "localhost"); //Database server address
+define("DB_NAME", "digiassets_network"); //Database name
+define("DB_USER", "root"); //Database user
 define("DB_PASS", ""); //Database password
 
 define("GA_CODE", ""); //Universal Analytics Code

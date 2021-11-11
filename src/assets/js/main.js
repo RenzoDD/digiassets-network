@@ -6,5 +6,5 @@
 
 function search() {
     var search = document.getElementById("search");
-    location = "/" + search.value;
+    location = "/asset/" + search.value;
 }
