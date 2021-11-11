@@ -14,6 +14,7 @@ class IpfsCidModel extends DatabaseModel
 	public $DigiAssetID;
 
 	public $CID;
+	public $Data;
 
 	private function FillData($destiny, $origin)
 	{
@@ -47,6 +48,32 @@ class IpfsCidModel extends DatabaseModel
 			return true;
 		} catch (Exception $e) {
 			return false;
+		}
+	}
+
+	public function ReadAll()
+	{
+		try {
+			$query = $this->db->prepare("CALL IpfsCids_Read_All()");
+
+			if (!$query->execute())
+				return [];
+
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if (sizeof($result) == 0)
+				return [];
+
+			$A = [];
+			foreach ($result as $row) {
+				$obj = new IpfsCidModel();
+				$obj->FillData($obj, $row);
+				$A[$obj->IpfsCidID] = $obj;
+			}
+
+			return $A;
+		} catch (Exception $e) {
+			return [];
 		}
 	}
 
@@ -96,7 +123,56 @@ class IpfsCidModel extends DatabaseModel
 
 			return null;
 		} catch (Exception $e) {
+			return null;
+		}
+	}
+
+	public function ReadNullData()
+	{
+		try {
+			$query = $this->db->prepare("CALL IpfsCids_Read_Null_Data()");
+
+			if (!$query->execute())
+				return [];
+
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if (sizeof($result) == 0)
+				return [];
+
+			$A = [];
+			foreach ($result as $row) {
+				$obj = new IpfsCidModel();
+				$obj->FillData($obj, $row);
+				$A[$obj->IpfsCidID] = $obj;
+			}
+
+			return $A;
+		} catch (Exception $e) {
 			return [];
+		}
+	}
+
+	public function UpdateData($IpfsCidID, $Data)
+	{
+		try {
+			$query = $this->db->prepare("CALL IpfsCids_Update_Data(:IpfsCidID,:Data)");
+			$query->bindParam(":IpfsCidID", $IpfsCidID, PDO::PARAM_INT);
+			$query->bindParam(":Data",      $Data,      PDO::PARAM_STR);
+
+			if (!$query->execute())
+				return false;
+
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if (sizeof($result) == 0)
+				return false;
+
+			$this->FillData($this, $result[0]);
+
+			return true;
+		} catch (Exception $e) {
+			return false;
 		}
 	}
 }

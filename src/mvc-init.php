@@ -388,11 +388,16 @@ class Bootstrap
 
 class HTTP
 {
-    public static function Get($url)
+    public static function Get($url, $encode = true)
     {
-        return json_decode(file_get_contents($url));
+        $data = file_get_contents($url);
+
+        if ($encode)
+            return json_decode($data);
+        else
+            return $data;
     }
-    public static function Post($url, $data)
+    public static function Post($url, $data, $encode = true)
     {
         $options = array(
             'http' => array(
@@ -402,7 +407,12 @@ class HTTP
             )
         );
         $context  = stream_context_create($options);
-        return json_decode(file_get_contents($url, false, $context));
+
+        $data = file_get_contents($url, false, $context);
+        if ($encode)
+            return json_decode($data);
+        else
+            return $data;
     }
 }
 

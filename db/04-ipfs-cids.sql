@@ -13,6 +13,7 @@ CREATE TABLE IpfsCids (
 	DigiAssetID	INTEGER		NOT NULL,
 
     CID			VARCHAR(64)	NOT NULL	UNIQUE,
+    Data        TEXT,
 
 	PRIMARY KEY (IpfsCidID),
 	FOREIGN KEY (DigiAssetID) REFERENCES DigiAssets	(DigiAssetID)
@@ -31,6 +32,13 @@ BEGIN
 	LIMIT   1;
 END //
 
+DROP PROCEDURE IF EXISTS IpfsCids_Read_All //
+CREATE PROCEDURE IpfsCids_Read_All ( )
+BEGIN
+    SELECT  IC.*
+    FROM    IpfsCids AS IC;
+END //
+
 DROP PROCEDURE IF EXISTS IpfsCids_Read_DigiAssetID //
 CREATE PROCEDURE IpfsCids_Read_DigiAssetID ( IN DigiAssetID INTEGER )
 BEGIN
@@ -45,5 +53,27 @@ BEGIN
     SELECT  IC.*
     FROM    IpfsCids AS IC
     WHERE   IC.CID = CID
+	LIMIT	1;
+END //
+
+DROP PROCEDURE IF EXISTS IpfsCids_Read_Null_Data //
+CREATE PROCEDURE IpfsCids_Read_Null_Data (  )
+BEGIN
+    SELECT  IC.*
+    FROM    IpfsCids AS IC
+    WHERE   IC.DATA IS NULL;
+END //
+
+DROP PROCEDURE IF EXISTS IpfsCids_Update_Data //
+CREATE PROCEDURE IpfsCids_Update_Data ( IN IpfsCidID INTEGER, IN Data TEXT )
+BEGIN
+    UPDATE  IpfsCids AS IC
+    SET     IC.Data = Data
+    WHERE   IC.IpfsCidID = IpfsCidID;
+
+    SELECT  IC.*
+    FROM    IpfsCids AS IC
+    WHERE   IC.IpfsCidID = IpfsCidID
+            AND IC.Data = Data
 	LIMIT	1;
 END //

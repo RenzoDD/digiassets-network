@@ -25,98 +25,44 @@ route("/address/:address", function () {
     WebSiteController::Address($_GET["address"]);
 });
 route("/sync", function () {
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/1");
-
-    $ids = array_keys($data);
-
     $asset = new DigiAssetModel();
     $ipfs = new IpfsCidModel();
 
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
+    $last = $asset->ReadLast();
 
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
+    if ($last == null)
+        $url = "https://ipfs.digiassetx.com/1";
+    else
+        $url = "https://ipfs.digiassetx.com/$last->Height";
 
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
+    $data = (array)HTTP::Get($url);
     $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
 
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
+    if (in_array($last->AssetID, $ids) == false) {
+        if ($ids[sizeof($ids) - 1] != $last->AssetID) {
+            foreach ($ids as $key) {
+                $asset->Create($key, $data[$key]->height);
+                foreach ($data[$key]->cids as $cid) {
+                    $ipfs->Create($asset->DigiAssetID, $cid);
+                }
+            }
+        } else {
+            echo "synced";
+        }
+    } else if ($ids[sizeof($ids) - 1] != $last->AssetID) {
+        foreach ($ids as $key) {
+            if ($asset->ReadAssetID($key) == null) {
+                $asset->Create($key, $data[$key]->height);
+            }
             foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
+                if ($ipfs->ReadCID($cid) == null) {
+                    $ipfs->Create($asset->DigiAssetID, $cid);
+                    //$info = HTTP::Get("https://ipfs.io/ipfs/$cid", false);
+                    //$ipfs->UpdateData($ipfs->IpfsCidID, $info);
+                }
             }
         }
-    }
-
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
-
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
-
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
-
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
-    }
-
-    $data = (array)HTTP::Get("https://ipfs.digiassetx.com/" . $data[$key]->height);
-    $ids = array_keys($data);
-    foreach ($ids as $key) {
-        if ($asset->Create($key, $data[$key]->height)); {
-            foreach ($data[$key]->cids as $cid) {
-                $ipfs->Create($asset->DigiAssetID, $cid);
-            }
-        }
+    } else {
+        echo "synced";
     }
 });

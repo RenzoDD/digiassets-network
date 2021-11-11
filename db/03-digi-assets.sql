@@ -67,3 +67,12 @@ BEGIN
     ORDER BY Height DESC
 	LIMIT Offset, Quantity;
 END //
+
+DROP PROCEDURE IF EXISTS DigiAssets_Read_Last //
+CREATE PROCEDURE DigiAssets_Read_Last ( )
+BEGIN
+    SELECT  DA.*
+    FROM    DigiAssets AS DA
+    ORDER BY DA.Height DESC
+    LIMIT   1;
+END //

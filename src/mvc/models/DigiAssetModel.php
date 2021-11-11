@@ -135,4 +135,25 @@ class DigiAssetModel extends DatabaseModel
 			return [];
 		}
 	}
+	public function ReadLast()
+	{
+		try {
+			$query = $this->db->prepare("CALL DigiAssets_Read_Last( )");
+
+			if (!$query->execute())
+				return null;
+
+			$result = $query->fetchAll(PDO::FETCH_ASSOC);
+
+			if (sizeof($result) == 0)
+				return null;
+
+			$obj = new DigiAssetModel();
+			$obj->FillData($obj, $result[0]);
+
+			return $obj;
+		} catch (Exception $e) {
+			return null;
+		}
+	}
 }
