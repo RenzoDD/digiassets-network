@@ -17,7 +17,8 @@ if (!isset($pageName))
         <div class="collapse navbar-collapse text-center" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <?php
-                Bootstrap::NavbarItem(Bootstrap::Icon("house-door-fill")       . " Home",     true, "#", str_starts_with($pageName, "/home"));
+                Bootstrap::NavbarItem(Bootstrap::Icon("house-door-fill") . " Home",   true, "/",       str_starts_with($pageName, "/home"));
+                Bootstrap::NavbarItem(Bootstrap::Icon("list")            . " Assets", true, "/assets", str_starts_with($pageName, "/assets"));
                 ?>
             </ul>
         </div>

@@ -130,7 +130,7 @@ class DigiAssetModel extends DatabaseModel
 				$A[$obj->DigiAssetID] = $obj;
 			}
 
-			return $obj;
+			return $A;
 		} catch (Exception $e) {
 			return [];
 		}

@@ -130,7 +130,7 @@ function PaginationStart($actual_page, $pages_to_show, $total_pages)
 
     $s = ($s <= 0) ? 1 : $s;
 
-    return [$s, $f];
+    return ["start" => $s, "end" => $f];
 }
 
 if (!function_exists("str_starts_with")) {

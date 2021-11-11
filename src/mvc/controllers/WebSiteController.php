@@ -44,8 +44,9 @@ class WebSiteController
     }
     public static function AssetsList($page, $cant)
     {
-        $digiAsset = new DigiAssetModel();
-        $digiAsset = $digiAsset->ReadAll($page, $cant);
+        $digiAssets = new DigiAssetModel();
+        $pages = ceil($digiAssets->ReadQuantity() / $cant);
+        $digiAssets = $digiAssets->ReadAll($page, $cant);
 
         $pageName = "/assets";
         $title = "DigiAssets Explorer - Asset List";
