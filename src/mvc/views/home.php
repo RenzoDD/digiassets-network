@@ -29,9 +29,12 @@
 
 			<div class="row justify-content-center">
 				<div class="col-lg-8">
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Search for DigiAsset ID" id="search" required>
-						<button onclick="search()" class="btn btn-success"><i class="bi bi-search"></i></button>
+					<div class="mb-3">
+						<div class="input-group">
+							<input type="text" class="form-control" placeholder="Search for DigiAsset ID or address" id="search" required>
+							<button onclick="search()" class="btn btn-success"><i class="bi bi-search"></i></button>
+						</div>
+						<small>Address search might work only for DigiAsssets v2</small>
 					</div>
 				</div>
 			</div>

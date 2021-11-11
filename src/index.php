@@ -14,8 +14,15 @@ require_once __CONTROLLER__ . "/WebSiteController.php";
 route("/", function () {
     WebSiteController::Home();
 });
+route("/assets/:page?", function () {
+    $_GET["page"] = $_GET["page"] == null ? 1 : $_GET["page"];
+    WebSiteController::AssetsList($_GET["page"], 10);
+});
 route("/asset/:asset", function () {
     WebSiteController::Asset($_GET["asset"]);
+});
+route("/address/:address", function () {
+    WebSiteController::Address($_GET["address"]);
 });
 route("/sync", function () {
     $data = (array)HTTP::Get("https://ipfs.digiassetx.com/1");

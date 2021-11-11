@@ -42,4 +42,23 @@ class WebSiteController
             require __VIEW__ . "/missing.php";
         }
     }
+    public static function AssetsList($page, $cant)
+    {
+        $digiAsset = new DigiAssetModel();
+        $digiAsset = $digiAsset->ReadAll($page, $cant);
+
+        $pageName = "/assets";
+        $title = "DigiAssets Explorer - Asset List";
+        $description = "List of DigiAssets";
+
+        require __VIEW__ . "/assets.php";
+    }
+    public static function Address($address)
+    {
+        $pageName = "/address";
+        $title = "DigiAssets Explorer - $address";
+        $description = "Check this DigiByte Address";
+
+        require __VIEW__ . "/address.php";
+    }
 }
