@@ -39,3 +39,19 @@ body {
     color: var(--MENU-FONT-HOVER) !important;
     background-color: var(--MENU-HOVER);
 }
+
+.text-justify {
+    text-align: justify;
+}
+
+.link {
+    color: #0066CC;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #5599DD;
+    font-weight: 1100;
+    text-decoration: none;
+}

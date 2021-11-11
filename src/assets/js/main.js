@@ -3,3 +3,8 @@
  * Licensed under MIT License
  * JavaScript File
  */
+
+function search() {
+    var search = document.getElementById("search");
+    location = "/" + search.value;
+}
