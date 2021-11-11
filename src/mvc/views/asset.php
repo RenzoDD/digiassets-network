@@ -21,7 +21,7 @@
 	<main class="container my-3">
 		<div class="my-5">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<div class="mb-3">
 						<h3>Asset Information:</h3>
 						<table class="table table-borderless">
@@ -54,9 +54,10 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="mb-3 text-center">
-						<img src="/assets/img/logo.png" class="img-thumbnail" id="asset-img">
+
+						<img src="/assets/img/logo.png" class="img-thumbnail" id="asset-img" onerror="if (this.src != 'error.jpg') this.src = '/assets/img/logo.png';">
 					</div>
 				</div>
 			</div>
@@ -96,7 +97,7 @@
 			<?php endforeach ?>
 		];
 	</script>
-	<script src="/assets/js/asset.js"></script>
+	<script src="/assets/js/asset.js" async></script>
 </body>
 
 </html>

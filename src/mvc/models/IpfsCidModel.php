@@ -30,7 +30,7 @@ class IpfsCidModel extends DatabaseModel
 	public function Create($DigiAssetID, $CID)
 	{
 		try {
-			$query = $this->db->prepare("CALL DigiAssets_Create(:DigiAssetID,:Height)");
+			$query = $this->db->prepare("CALL IpfsCids_Create(:DigiAssetID,:CID)");
 			$query->bindParam(":DigiAssetID", $DigiAssetID, PDO::PARAM_INT);
 			$query->bindParam(":CID",         $CID,         PDO::PARAM_STR);
 

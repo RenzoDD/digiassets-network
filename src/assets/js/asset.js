@@ -10,7 +10,7 @@ for (var i = 0; i < ipfs.length; i++) {
     var img = document.getElementById("asset-img");
 
     if (data.data.urls[0]) {
-        if (data.data.urls[0].mimeType == "image/png" || data.data.urls[0].mimeType == "image/jpeg") {
+        if (data.data.urls[0].mimeType.startsWith("image/")) {
             img.src = data.data.urls[0].url
         }
     }
