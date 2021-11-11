@@ -17,7 +17,10 @@ for (var i = 0; i < ipfs.length; i++) {
     if (data) {
         if (data.data.urls[0]) {
             if (data.data.urls[0].mimeType.startsWith("image/")) {
-                img.src = data.data.urls[0].url
+                if (data.data.urls[0].url.startsWith("ipfs://"))
+                    img.src = "https://ipfs.io/ipfs/" + data.data.urls[0].url.substring(7);
+                else
+                    img.src = data.data.urls[0].url
             }
         }
     }

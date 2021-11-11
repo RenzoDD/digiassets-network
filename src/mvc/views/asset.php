@@ -56,7 +56,7 @@
 				</div>
 				<div class="col-md-4">
 					<div class="mb-3 text-center">
-						<img src="/assets/img/logo.png" class="img-thumbnail" id="asset-img" onerror="if (this.src != 'error.jpg') this.src = '/assets/img/logo.png';">
+						<img src="/assets/img/logo.png" class="img-thumbnail" id="asset-img" onerror="if (this.src != '/assets/img/logo.png') this.src = '/assets/img/logo.png';">
 					</div>
 				</div>
 			</div>
