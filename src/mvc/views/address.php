@@ -57,6 +57,11 @@
 							<tbody id="asset-list">
 							</tbody>
 						</table>
+						<div class="text-center">
+							<div class="spinner-border text-primary" id="assets-loading">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

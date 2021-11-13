@@ -60,3 +60,15 @@ body {
     background-color: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
+
+.img-wrapper {
+    width: auto;
+    height: 200px;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.img-wrapper>img {
+    position: relative;
+}

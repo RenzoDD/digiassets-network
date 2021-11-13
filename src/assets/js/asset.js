@@ -16,8 +16,8 @@ function FetchMetaData(api, ipfs) {
     for (var i = 0; i < ipfs.length; i++) {
         console.log(api + "/ipfs/" + ipfs[i])
         HTTPGet(api + "/ipfs/" + ipfs[i], (data) => {
+            $('#holders-' + data.cid).detach();
             var img = document.getElementById("asset-img");
-
             if (data) {
                 if (data.ipfs.data.urls[0]) {
                     if (data.ipfs.data.urls[0].mimeType.startsWith("image/")) {
@@ -27,7 +27,7 @@ function FetchMetaData(api, ipfs) {
                             img.src = data.ipfs.data.urls[0].url
                     }
                 }
-                $("#asset-meta").append(`<div class="col-md-10"><span class="text-break">IPFS: <a class="link" href="https://ipfs.io/ipfs/${data.cid}">${data.cid}</a></span><pre class="code">${JSON.stringify(data, undefined, 2)}</pre></div>`);
+                $("#asset-meta").append(`<div class="col-md-10"><span class="text-break">IPFS: <a class="link" href="https://ipfs.io/ipfs/${data.cid}">${data.cid}</a></span><pre class="code">${JSON.stringify(data.ipfs, undefined, 2)}</pre></div>`);
             }
         });
     }
@@ -35,7 +35,7 @@ function FetchMetaData(api, ipfs) {
 
 function FetchHolders(api, assetID) {
     HTTPGet(api + "/holders/" + assetID, (holders) => {
-
+        $('#holders-loading').detach();
         if (holders) {
             if (holders.holders) {
                 for (var i = 0; i < holders.holders.length; i++) {

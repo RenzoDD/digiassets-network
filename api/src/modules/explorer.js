@@ -22,7 +22,7 @@ router.get('/ipfs/:cid', (req, res) => {
 
             MySQL.CallbackQuerySave("CALL IpfsCids_Read_CID(?)", [req.params.cid], (result1) => {
                 console.log(result1);
-                MySQL.CallbackQuerySave("CALL IpfsCids_Update_Data(?,?)", [result1[0].IpfsCidID, JSON.stringify(data)], (result2) => {
+                MySQL.CallbackQuerySave("CALL IpfsCids_Update_Data(?,?)", [result1[0].IpfsCidID, JSON.stringify(data, undefined, 2)], (result2) => {
                     //console.log(result2);
                     res.send({ cid: req.params.cid, ipfs: data });
                 });
