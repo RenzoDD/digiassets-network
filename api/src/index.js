@@ -1,4 +1,5 @@
 const Util = require('./utilities/util');
+const Sync = require('./utilities/sync');
 
 /**** Server ****/
 const express = require('express');
@@ -18,3 +19,6 @@ app.listen(process.env.PORT, () => {
     console.log("Environment:        " + process.env.NODE_ENV);
     console.log("====================================================================");
 });
+
+Sync();
+setInterval(Sync, 600000);
