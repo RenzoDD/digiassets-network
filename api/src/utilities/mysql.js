@@ -1,58 +1,65 @@
 const mysql = require('mysql');
 const sync_mysql = require('sync-mysql');
+const Util = require('./util');
 
 class MySQL {
+    static callback = null;
+    static sync = null;
 
-    static CallbackQuery(sql, callback) {
-        var conn = mysql.createConnection({
+    static ConnectCallback() {
+        MySQL.callback = mysql.createConnection({
             host: process.env.DB_HOST,
             database: process.env.DB_NAME,
             user: process.env.DB_USER,
             password: process.env.DB_PASS
         });
-        conn.query(sql, (error, result) => {
+    }
+    static DisconnectCallback() {
+        MySQL.callback.end();
+        MySQL.callback = null;
+    }
+    static ConnectSync() {
+        MySQL.sync = new sync_mysql({
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASS
+        });
+    }
+
+    static CallbackQuery(sql, callback) {
+        MySQL.callback.query(sql, (error, result) => {
             if (!error) {
-                callback(result);
+                callback(result[0]);
             } else {
-                callback(null);
-                console.error("======================DATABASE CallbackQuery ERROR======================");
-                console.error("Query: " + sql);
-                console.error(error);
-                console.error("==========================================================");
+                callback([]);
+                Util.log("======================DATABASE CallbackQuery ERROR======================");
+                Util.log("Query: " + sql);
+                Util.log("==========================================================");
             }
-            conn.end();
         });
     }
 
     static CallbackQuerySave(sql, parameters, callback) {
-        var conn = mysql.createConnection({
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS
-        });
-        conn.query(sql, parameters, (error, result) => {
+        MySQL.callback.query(sql, parameters, (error, result) => {
             if (!error) {
                 callback(result[0]);
             } else {
-                callback(null);
-                console.error("======================DATABASE CallbackQuerySave ERROR======================");
-                console.error("Query: " + sql);
-                console.error(error);
-                console.error("==========================================================");
+                callback([]);
+                Util.log("======================DATABASE CallbackQuerySave ERROR======================");
+                Util.log("Query: " + sql, parameters);
+                Util.log("==========================================================");
             }
-            conn.end();
         });
     }
 
     static SyncQuery(sql, values = []) {
-        var conn = new sync_mysql({
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS
-        });
-        return conn.query(sql, values);
+        try {
+            return MySQL.sync.query(sql, values)[0];
+        } catch (e) {
+            Util.log(e);
+            return [];
+        }
     }
 }
 

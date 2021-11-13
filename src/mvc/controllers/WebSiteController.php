@@ -66,7 +66,8 @@ class WebSiteController
     public static function AssetsList($page, $cant)
     {
         $digiAssets = new DigiAssetModel();
-        $pages = ceil($digiAssets->ReadQuantity() / $cant);
+        $quantity = $digiAssets->ReadQuantity();
+        $pages = ceil($quantity / $cant);
         $digiAssets = $digiAssets->ReadAll($page, $cant);
 
         $pageName = "/assets";
