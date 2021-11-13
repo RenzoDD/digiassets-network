@@ -56,13 +56,47 @@
 				</div>
 				<div class="col-md-4">
 					<div class="mb-3 text-center">
-						<img src="/assets/img/logo.png" class="img-thumbnail" id="asset-img" onerror="if (this.src != '/assets/img/logo.png') this.src = '/assets/img/logo.png';">
+						<div class="mb-3">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="checkbox" id="check-wrapper" onchange="setWrapper(this.checked)">
+								<label class="form-check-label" for="check-wrapper">Complete image</label>
+							</div>
+						</div>
+						<div class="img-wrapper img-thumbnail" id="wrapper">
+							<img src="<?php echo $image ?>" class="img-fluid" id="asset-img" onerror="if (this.src != '/assets/img/logo.png') this.src = '/assets/img/logo.png';">
+						</div>
+						<script>
+							function setWrapper(value) {
+								var wrapper = document.getElementById("wrapper");
+								if (!value)
+									wrapper.className = "img-wrapper img-thumbnail";
+								else
+									wrapper.className = "img-thumbnail";
+							}
+						</script>
 					</div>
 				</div>
 			</div>
 			<div class="mb-3">
 				<h3>Asset Metadata:</h3>
 				<div class="row justify-content-center" id="asset-meta">
+					<?php foreach ($cids as $ipfs) : ?>
+						<?php if ($ipfs->Data != null) : ?>
+							<div class="col-md-10">
+								<span class="text-break">
+									IPFS:
+									<a class="link" href="https://ipfs.io/ipfs/$<?php echo $ipfs->CID ?>"><?php echo $ipfs->CID ?></a>
+								</span>
+								<pre class="code"><?php echo $ipfs->Data ?></pre>
+							</div>
+						<?php else : ?>
+							<div class="text-center">
+								<div class="spinner-border text-primary" id="holders-<?php echo $ipfs->CID ?>">
+									<span class="visually-hidden">Loading...</span>
+								</div>
+							</div>
+						<?php endif ?>
+					<?php endforeach ?>
 				</div>
 			</div>
 			<div class="mb-3">
@@ -79,6 +113,11 @@
 							<tbody id="asset-holders">
 							</tbody>
 						</table>
+						<div class="text-center">
+							<div class="spinner-border text-primary" id="holders-loading">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -89,14 +128,19 @@
 
 	<script src="/assets/vendor/jquery/jquery.js"></script>
 	<script src="/assets/vendor/bootstrap/bootstrap.js"></script>
+	<script src="/assets/js/asset.js"></script>
 	<script>
-		var assetID = '<?php echo $digiAsset->AssetID ?>';
-		var ipfs = [
-			<?php foreach ($cids as $ipfs) : ?> '<?php echo $ipfs->CID ?>',
-			<?php endforeach ?>
-		];
+		setTimeout(async () => {
+			var ipfs = [
+				<?php foreach ($cids as $ipfs) : ?>
+					<?php if ($ipfs->Data == null) : ?> '<?php echo $ipfs->CID ?>',
+					<?php endif ?>
+				<?php endforeach ?>
+			];
+			FetchMetaData('<?php echo API ?>', ipfs);
+			FetchHolders('<?php echo API ?>', '<?php echo $digiAsset->AssetID ?>');
+		}, 1000);
 	</script>
-	<script src="/assets/js/asset.js" async></script>
 </body>
 
 </html>

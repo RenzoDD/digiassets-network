@@ -26,6 +26,9 @@ class IpfsCidModel extends DatabaseModel
 
 		if (isset($origin['CID']))
 			$destiny->CID = $origin['CID'];
+
+		if (isset($origin['Data']))
+			$destiny->Data = $origin['Data'];
 	}
 
 	public function Create($DigiAssetID, $CID)

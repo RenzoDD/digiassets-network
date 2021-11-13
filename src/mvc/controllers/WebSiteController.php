@@ -31,6 +31,27 @@ class WebSiteController
             $title = "DigiAssets Explorer - $assetID";
             $description = "Check this DigiAsset!";
 
+            if (sizeof($cids) > 0) {
+                $keys = array_keys($cids);
+                foreach ($keys as $key) {
+                    if ($cids[$key]->Data != null) {
+                        $json = json_decode($cids[$key]->Data);
+
+                        if (isset($json->data) && isset($json->data->urls[0]) && isset($json->data->urls[0]->mimeType) && isset($json->data->urls[0]->url)) {
+                            if (str_starts_with($json->data->urls[0]->mimeType, "image/")) {
+                                if (str_starts_with($json->data->urls[0]->url, "ipfs://")) {
+                                    $image = "https://ipfs.io/ipfs/" . substr($json->data->urls[0]->url, 7);
+                                    break;
+                                } else
+                                    $image = $json->data->urls[0]->url;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!isset($image))
+                $image = "/assets/img/logo.png";
+
             require __VIEW__ . "/asset.php";
         } else {
             $cids = [];
@@ -45,7 +66,8 @@ class WebSiteController
     public static function AssetsList($page, $cant)
     {
         $digiAssets = new DigiAssetModel();
-        $pages = ceil($digiAssets->ReadQuantity() / $cant);
+        $quantity = $digiAssets->ReadQuantity();
+        $pages = ceil($quantity / $cant);
         $digiAssets = $digiAssets->ReadAll($page, $cant);
 
         $pageName = "/assets";

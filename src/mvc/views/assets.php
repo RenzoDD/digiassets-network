@@ -19,6 +19,9 @@
 	<?php require __VIEW__ . "/.parts/page/header.php"; ?>
 
 	<main class="container my-3">
+		<h2 class="text-center">
+			Showing asets <b><?php echo (($page - 1) * $cant + 1) ?></b> to <b><?php echo ($page * $cant) ?></b> of <b><?php echo $quantity ?></b>
+		</h2>
 		<div class="my-3 text-center">
 			<div class="row justify-content-center">
 				<div class="col-md-8">
