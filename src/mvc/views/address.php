@@ -67,10 +67,10 @@
 
 	<script src="/assets/vendor/jquery/jquery.js"></script>
 	<script src="/assets/vendor/bootstrap/bootstrap.js"></script>
+	<script src="/assets/js/address.js"></script>
 	<script>
-		var address = '<?php echo $address ?>';
+		FetchAssets('<?php echo API ?>', '<?php echo $address ?>')
 	</script>
-	<script src="/assets/js/address.js" async></script>
 </body>
 
 </html>

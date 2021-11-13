@@ -89,14 +89,17 @@
 
 	<script src="/assets/vendor/jquery/jquery.js"></script>
 	<script src="/assets/vendor/bootstrap/bootstrap.js"></script>
+	<script src="/assets/js/asset.js"></script>
 	<script>
-		var assetID = '<?php echo $digiAsset->AssetID ?>';
-		var ipfs = [
-			<?php foreach ($cids as $ipfs) : ?> '<?php echo $ipfs->CID ?>',
-			<?php endforeach ?>
-		];
+		setTimeout(async () => {
+			var ipfs = [
+				<?php foreach ($cids as $ipfs) : ?> '<?php echo $ipfs->CID ?>',
+				<?php endforeach ?>
+			];
+			FetchMetaData('<?php echo API ?>', ipfs);
+			FetchHolders('<?php echo API ?>', '<?php echo $digiAsset->AssetID ?>');
+		}, 1000);
 	</script>
-	<script src="/assets/js/asset.js" async></script>
 </body>
 
 </html>

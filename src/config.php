@@ -12,3 +12,5 @@ define("SK_reCAPTCHA_v2", ""); //reCAPTCHA v2 private key
 
 define("PK_reCAPTCHA_v3", ""); //reCAPTCHA v3 public key
 define("SK_reCAPTCHA_v3", ""); //reCAPTCHA v3 private key
+
+define("API", "http://localhost:3000");
