@@ -26,6 +26,7 @@ module.exports = () => {
 
         for (var k = i; k < keys.length; k++) {
             MySQL.CallbackQuerySave("CALL DigiAssets_Create (?,?)", [keys[k], data[keys[k]].height], (DA) => {
+                Util.log("Added: " + DA[0].DigiAssetID, true)
                 if (DA.length > 0) {
                     for (var j = 0; j < data[DA[0].AssetID].cids.length; j++) {
                         MySQL.CallbackQuerySave("CALL IpfsCids_Create (?,?)", [DA[0].DigiAssetID, data[DA[0].AssetID].cids[j]], (IPFS) => {});

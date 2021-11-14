@@ -30,7 +30,7 @@
 							Page <?php echo $page ?>
 						</a>
 						<?php foreach ($digiAssets as $da) : ?>
-							<a href="/asset/<?php echo $da->AssetID ?>" class="list-group-item list-group-item-action"><?php echo $da->AssetID ?></a>
+							<a href="/asset/<?php echo $da->AssetID ?>" class="list-group-item list-group-item-action text-break"><?php echo $da->AssetID ?></a>
 						<?php endforeach ?>
 					</div>
 				</div>

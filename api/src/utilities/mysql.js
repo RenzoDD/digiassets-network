@@ -3,8 +3,8 @@ const sync_mysql = require('sync-mysql');
 const Util = require('./util');
 
 class MySQL {
-    static callback = null;
-    static sync = null;
+    static callback = [];
+    static sync = [];
 
     static ConnectCallback() {
         MySQL.callback = mysql.createConnection({
@@ -16,7 +16,7 @@ class MySQL {
     }
     static DisconnectCallback() {
         MySQL.callback.end();
-        MySQL.callback = null;
+        MySQL.callback = [];
     }
     static ConnectSync() {
         MySQL.sync = new sync_mysql({
@@ -47,7 +47,7 @@ class MySQL {
             } else {
                 callback([]);
                 Util.log("======================DATABASE CallbackQuerySave ERROR======================");
-                Util.log("Query: " + sql, parameters);
+                Util.log("Query: " + sql);
                 Util.log("==========================================================");
             }
         });
