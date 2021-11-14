@@ -24,45 +24,18 @@ route("/asset/:asset", function () {
 route("/address/:address", function () {
     WebSiteController::Address($_GET["address"]);
 });
-route("/sync", function () {
-    $asset = new DigiAssetModel();
-    $ipfs = new IpfsCidModel();
+route("/about", function () {
+    WebSiteController::About();
+});
+route("/assets/img/addresses/:data", function () {
+    $data = "digibyte:" . substr($_GET["data"], 0, -4);
+    $filepath = __IMG__ . "/addresses/" . $_GET["data"];
+    $logopath = __IMG__ . "/digibyte.png";
 
-    $last = $asset->ReadLast();
+    QR::Create($data, $filepath, $logopath);
 
-    if ($last == null)
-        $url = "https://ipfs.digiassetx.com/1";
-    else
-        $url = "https://ipfs.digiassetx.com/$last->Height";
-
-    $data = (array)HTTP::Get($url);
-    $ids = array_keys($data);
-
-    if (in_array($last->AssetID, $ids) == false) {
-        if ($ids[sizeof($ids) - 1] != $last->AssetID) {
-            foreach ($ids as $key) {
-                $asset->Create($key, $data[$key]->height);
-                foreach ($data[$key]->cids as $cid) {
-                    $ipfs->Create($asset->DigiAssetID, $cid);
-                }
-            }
-        } else {
-            echo "synced";
-        }
-    } else if ($ids[sizeof($ids) - 1] != $last->AssetID) {
-        foreach ($ids as $key) {
-            if ($asset->ReadAssetID($key) == null) {
-                $asset->Create($key, $data[$key]->height);
-            }
-            foreach ($data[$key]->cids as $cid) {
-                if ($ipfs->ReadCID($cid) == null) {
-                    $ipfs->Create($asset->DigiAssetID, $cid);
-                    //$info = HTTP::Get("https://ipfs.io/ipfs/$cid", false);
-                    //$ipfs->UpdateData($ipfs->IpfsCidID, $info);
-                }
-            }
-        }
-    } else {
-        echo "synced";
-    }
+    header('Content-Type: image/png');
+    header('Content-Length: ' . filesize($filepath));
+    readfile($filepath);
+    return;
 });

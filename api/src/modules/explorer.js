@@ -85,5 +85,26 @@ router.get('/holders/:asset', (req, res) => {
 router.get("/sync", (req, res) => {
     Sync();
 })
+router.get("/address/:address", (req, res) => {
+    Util.HttpsGet('https://digiexplorer.info/api/address/' + req.params.address, (data) => {
+        if (data == null)
+            var address = { error: "Server error" };
+        else if (!data.error) {
+            var address = {
+                page: data.page,
+                pages: data.totalPages,
+                address: data.addrStr,
+                valueBalance: data.balance,
+                valueReceived: data.totalReceived,
+                valueSent: data.totalSent,
+                unconfirmedValue: data.unconfirmedBalance,
+                transactions: data.transactions
+            };
+        } else {
+            var address = data;
+        }
+        res.send(address);
+    });
+});
 
 module.exports = router;

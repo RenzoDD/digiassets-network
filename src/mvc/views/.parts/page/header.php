@@ -19,6 +19,7 @@ if (!isset($pageName))
                 <?php
                 Bootstrap::NavbarItem(Bootstrap::Icon("house-door-fill") . " Home",   true, "/",       str_starts_with($pageName, "/home"));
                 Bootstrap::NavbarItem(Bootstrap::Icon("collection-fill") . " Assets", true, "/assets", str_starts_with($pageName, "/assets"));
+                Bootstrap::NavbarItem(Bootstrap::Icon("flag-fill") . " About", true, "/about", str_starts_with($pageName, "/about"));
                 ?>
             </ul>
         </div>

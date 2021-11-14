@@ -294,6 +294,7 @@ class QR
 {
     public static function Create($data, $filepath, $logopath)
     {
+        require_once __LIBS__ . "/QRCode.php";
         QRcode::png($data, $filepath, QR_ECLEVEL_H, 5, 1);
 
         $QR = imagecreatefrompng($filepath);

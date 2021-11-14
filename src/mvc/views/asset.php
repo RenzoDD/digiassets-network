@@ -39,7 +39,7 @@
 										<h5 class="fw-bold">Ussued block:</h5>
 									</th>
 									<td>
-										<h5><a class="link" target="_blank" href="https://digibyteblockexplorer.com/block/<?php echo $digiAsset->Height ?>"><?php echo $digiAsset->Height ?></a></h5>
+										<h5><a class="link" target="_blank" href="<?php echo EXPLORER ?>/block/<?php echo $digiAsset->Height ?>"><?php echo $digiAsset->Height ?></a></h5>
 									</td>
 								</tr>
 								<tr>

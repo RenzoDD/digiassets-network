@@ -84,4 +84,12 @@ class WebSiteController
 
         require __VIEW__ . "/address.php";
     }
+    public static function About()
+    {
+        $pageName = "/about";
+        $title = "DigiAssets Explorer - About";
+        $description = "The creator of the explorer";
+
+        require __VIEW__ . "/about.php";
+    }
 }
