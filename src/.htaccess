@@ -1,0 +1,40 @@
+<IfModule mod_deflate.c>
+    
+    SetOutputFilter DEFLATE
+    <IfModule mod_setenvif.c>
+        BrowserMatch ^Mozilla/4 gzip-only-text/html
+        BrowserMatch ^Mozilla/4\.0[678] no-gzip
+        BrowserMatch \bMSI[E] !no-gzip !gzip-only-text/html
+        SetEnvIfNoCase Request_URI .(?:gif|jpe?g|png)$ no-gzip dont-vary
+    </IfModule>
+    
+    <IfModule mod_headers.c>
+        Header append Vary User-Agent env=!dont-vary
+        Header set Connection keep-alive
+    </IfModule>
+    
+    <filesMatch ".(ico|jpg|jpeg|png|gif|woff2|woff|svg|css|js)$">
+        Header set Cache-Control "max-age=21600, public"
+    </filesMatch>
+    
+    <IfModule mod_rewrite.c>
+        Options -Indexes
+        
+        RewriteEngine On
+        
+        # Non www Redirection
+        RewriteBase /
+        RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+        RewriteRule ^(.*)$ %1/$1 [R=301,L]
+
+        # HTTPS Redirection
+        RewriteCond %{HTTPS} off
+        RewriteCond %{HTTP_HOST} digiassets.network
+        RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=302]
+        
+        #Redirect all to index.php
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteRule . index.php [L]
+    </IfModule>
+    
+</IfModule>

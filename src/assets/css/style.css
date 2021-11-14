@@ -1,0 +1,74 @@
+/* 
+ * Copyright 2021 (c) Renzo Diaz
+ * Licensed under MIT License
+ * CSS File
+ */
+
+@font-face {
+    font-family: Font;
+    src: url('../fonts/montserrat.woff') format('woff');
+}
+
+:root {
+    --HEADER: #002352;
+    --MENU-NORMAL: #693510;
+    --MENU-HOVER: #5c2f0e;
+    --MENU-FONT-NORMAL: #FFFFFF;
+    --MENU-FONT-HOVER: #FFFFFF;
+}
+
+body {
+    font-family: Font;
+    background-image: url("../img/background.png");
+    background-repeat: repeat;
+}
+
+.navbar {
+    background-color: var(--HEADER) !important;
+}
+
+.dropdown-menu {
+    background-color: var(--MENU-NORMAL);
+}
+
+.dropdown-item {
+    color: var(--MENU-FONT-NORMAL) !important;
+}
+
+.dropdown-item:hover {
+    color: var(--MENU-FONT-HOVER) !important;
+    background-color: var(--MENU-HOVER);
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.link {
+    color: #0066CC;
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: #5599DD;
+    font-weight: 1100;
+    text-decoration: none;
+}
+
+.code {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.img-wrapper {
+    width: auto;
+    height: 200px;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.img-wrapper>img {
+    position: relative;
+}
