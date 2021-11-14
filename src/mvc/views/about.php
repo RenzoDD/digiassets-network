@@ -38,16 +38,11 @@
 					And thats about it. Here is my <a href="https://www.reddit.com/user/ObjectiveAct4720" target="_blank" class='link'><i class="bi bi-reddit"></i> Reddit</a> and <a href="https://t.me/RenzoDD" target="_blank" class='link'><i class="bi bi-telegram"></i> Telegram</a> if you want to get in touch with me to say hi or give me any suggestion for this or any of my projects. This is my profile and this is me, welcome to my page and I hope you can enjoy using it as much as I enjoyed coding it.
 				</p>
 
-				<div class="text-center">
-					<a class="btn btn-danger btn-sm mb-2" href="https://www.reddit.com/user/ObjectiveAct4720" target="_blank">
-						<i class="bi bi-reddit"></i> DM on Reddit!
-					</a>
-					<a class="btn btn-primary btn-sm mb-2" href="https://www.t.me/RenzoDD" target="_blank">
-						<i class="bi bi-telegram"></i> Say hi on Telegram!
-					</a>
-					<a class="btn btn-dark btn-sm mb-2" href="https://github.com/RenzoDD" target="_blank">
-						<i class="bi bi-github"></i> Follow me on GitHub!
-					</a>
+				<div class="alert alert-danger mb-3">
+					<h4 class="alert-heading"><i class="bi bi-bug-fill"></i> Did you find a bug?</h4>
+					<p>Send us an email and we will try to fix it as soon as possible.</p>
+					<hr>
+					<p class="mb-0 text-center"><i class="bi bi-envelope-fill"></i> <a href="mailto:support@digiassets.network" class="alert-link">support@digiassets.network</a></p>
 				</div>
 			</div>
 			<div class="col-md-6 mb-3">
@@ -75,6 +70,18 @@
 							<div id="<?php echo "$address-unconfirmed" ?>" class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
 						</div>
 					</div>
+				</div>
+
+				<div class="text-center mb-3">
+					<a class="btn btn-danger btn-sm mb-2" href="https://www.reddit.com/user/ObjectiveAct4720" target="_blank">
+						<i class="bi bi-reddit"></i> DM on Reddit!
+					</a>
+					<a class="btn btn-primary btn-sm mb-2" href="https://www.t.me/RenzoDD" target="_blank">
+						<i class="bi bi-telegram"></i> Say hi on Telegram!
+					</a>
+					<a class="btn btn-dark btn-sm mb-2" href="https://github.com/RenzoDD" target="_blank">
+						<i class="bi bi-github"></i> Follow me on GitHub!
+					</a>
 				</div>
 			</div>
 		</div>
