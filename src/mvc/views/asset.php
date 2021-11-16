@@ -36,7 +36,7 @@
 								</tr>
 								<tr>
 									<th>
-										<h5 class="fw-bold">Ussued block:</h5>
+										<h5 class="fw-bold">Issuance height:</h5>
 									</th>
 									<td>
 										<h5><a class="link" target="_blank" href="<?php echo EXPLORER ?>/block/<?php echo $digiAsset->Height ?>"><?php echo $digiAsset->Height ?></a></h5>
