@@ -1,56 +1,56 @@
 const https = require('https');
 
 class Util {
-    static HttpsGet(url, callback) {
-        https.get(url, (resp) => {
-            let data = '';
-            resp.on('data', (chunk) => { data += chunk; });
-            resp.on('end', () => {
-                var obj = null;
-                try {
-                    obj = JSON.parse(data);
-                } catch (error) {
-                    obj = null;
-                } finally {
-                    callback(obj);
-                }
+    static GetData (url) {
+        return new Promise((resolve, reject) => {
+            https.get(url, (resp) => {
+                let data = '';
+                resp.on('data', (chunk) => { data += chunk; });
+                resp.on('end', () => {
+                    try {
+                        var obj = JSON.parse(data);
+                        resolve(obj);
+                    } catch (error) {
+                        resolve({ error });
+                    }
+                });
+            }).on('error', (error) => {
+                resolve({ error })
             });
-        }).on('error', (error) => {
-            callback(null);
         });
+
+       
     }
-    static HttpsPost(server, path, data, callback) {
+    static PostData(server, path, data) {
+        return new Promise((resolve, reject) => {
+            data = JSON.stringify(data);
 
-        data = JSON.stringify(data);
-
-        const options = {
-            hostname: server,
-            port: 443,
-            path: path,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': data.length
-            }
-        }
-
-        const req = https.request(options, res => {
-            let data = '';
-            resp.on('data', (chunk) => { data += chunk; });
-            resp.on('end', () => {
-                var obj = null;
-                try {
-                    obj = JSON.parse(data);
-                } catch (error) {
-                    obj = null;
-                } finally {
-                    callback(obj);
+            const options = {
+                hostname: server,
+                port: 443,
+                path: path,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': data.length
                 }
-            });
-        }).on('error', (error) => {
-            callback(null);
-        });
+            }
 
+            const req = https.request(options, res => {
+                let data = '';
+                resp.on('data', (chunk) => { data += chunk; });
+                resp.on('end', () => {
+                    try {
+                        var obj = JSON.parse(data);
+                        resolve(obj);
+                    } catch (error) {
+                        resolve({ error });
+                    }
+                });
+            }).on('error', (error) => {
+                resolve({ error })
+            });
+        });
     }
     static GetDate(date = new Date) {
         var dt = new Date(date);

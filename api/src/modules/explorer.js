@@ -1,6 +1,11 @@
 const Util = require('../utilities/util');
 const MySQL = require('../utilities/mysql');
 const Sync = require('../utilities/sync');
+const lookup = require('digiasset-lookup');
+lookup.initS3({
+    accessKeyId:    process.env.AWS_USER,
+    secretAccessKey:process.env.AWS_PASS
+});
 
 /**** Router ****/
 const express = require('express');
@@ -14,97 +19,77 @@ router.use((req, res, next) => {
 });
 
 /**** Routes ****/
-router.get('/ipfs/:cid', (req, res) => {
+router.get('/ipfs/:cid', async (req, res) => {
     Util.log("IPFS Fetching: " + "https://ipfs.io/ipfs/" + req.params.cid);
-    Util.HttpsGet("https://ipfs.io/ipfs/" + req.params.cid, (data) => {
-        if (data) {
-            Util.log("IPFS Fetched: " + req.params.cid);
-            Util.log({ cid: req.params.cid, ipfs: data })
+    var data = await Util.GetData("https://ipfs.io/ipfs/" + req.params.cid);
+    
+    if (data) {
+        Util.log("IPFS Fetched: " + req.params.cid);
+        Util.log({ cid: req.params.cid, ipfs: data })
 
-            MySQL.CallbackQuerySave("CALL IpfsCids_Read_CID(?)", [req.params.cid], (result1) => {
-                console.log(result1);
-                MySQL.CallbackQuerySave("CALL IpfsCids_Update_Data(?,?)", [result1[0].IpfsCidID, JSON.stringify(data, undefined, 2)], (result2) => {
-                    //console.log(result2);
-                    res.send({ cid: req.params.cid, ipfs: data });
-                });
-            });
-        } else {
-            Util.log("IPFS Not Fetched: " + req.params.cid);
-            res.send({ error: "server error" });
-        }
+        var result1 = await MySQL.Query("CALL IpfsCids_Read_CID(?)", [req.params.cid]);
+        
 
-    });
+        var result2 = await MySQL.Query("CALL IpfsCids_Update_Data(?,?)", [result1[0].IpfsCidID, JSON.stringify(data, undefined, 2)]);
+        var result3 = await MySQL.Query("CALL DigiAssets_Update_Data(?,?,?,?)", [result1[0].DigiAssetID, data.data.assetName, data.data.issuer, data.data.description])
+
+        res.send({ cid: req.params.cid, ipfs: data });
+    } else {
+        Util.log("IPFS Not Fetched: " + req.params.cid);
+        res.send({ error: "server error" });
+    }
 });
-router.get('/assets/:address', (req, res) => {
+router.get('/assets/:address', async (req, res) => {
     Util.log("Address Fetching: " + req.params.address);
-    Util.HttpsGet("https://api.digiassets.net:443/v3/addressinfo/" + req.params.address, (data) => {
-        if (data) {
-            var assets = [];
-            var quantity = 0;
-            for (var i = 0; i < data.utxos.length; i++) {
-                for (var j = 0; j < data.utxos[i].assets.length; j++) {
-                    quantity++;
-                    assets.push({
-                        id: data.utxos[i].assets[j].assetId,
-                        amount: data.utxos[i].assets[j].amount
-                    });
-                }
-            }
-            Util.log("Address Fetched: " + req.params.address);
-            Util.log({ address: req.params.address, quantity, assets })
-            res.send({ address: req.params.address, quantity, assets });
-        } else {
-            Util.log("Address Not Fetched: " + req.params.address);
-            res.send({ error: "server error" });
-        }
-    });
-});
-router.get('/holders/:asset', (req, res) => {
-    Util.log("Holders Fetching: " + req.params.asset);
-    Util.HttpsGet("https://api.digiassets.net:443/v3/stakeholders/" + req.params.asset, (data) => {
-        if (data) {
-            var holders = [];
-            var quantity = 0;
-            for (var i = 0; i < data.holders.length; i++) {
-                quantity++;
-                holders.push({
-                    address: data.holders[i].address,
-                    amount: data.holders[i].amount
-                });
+    var data = await lookup.getAddress(req.params.address);
+    
+    if (data) {
+        var assets = [];
+        var quantity = 0;
 
-            }
-            Util.log("Holders Fetched: " + req.params.asset);
-            Util.log({ asset: req.params.asset, quantity, holders })
-            res.send({ asset: req.params.asset, quantity, holders });
-        } else {
-            Util.log("Holders Not Fetched: " + req.params.asset);
-            res.send({ error: "server error" });
+        var assetsId = Object.keys(data.assets);
+        for (var i = 0; i < assetsId.length; i++) {
+            quantity++;
+            assets.push({
+                id: assetsId[i],
+                amount: data.assets[assetsId[i]]
+            });
         }
-    });
+
+        Util.log("Address Fetched: " + req.params.address);
+        Util.log({ address: req.params.address, quantity, assets })
+        res.send({ address: req.params.address, quantity, assets });
+    } else {
+        Util.log("Address Not Fetched: " + req.params.address);
+        res.send({ error: "server error" });
+    }
 });
-router.get("/sync", (req, res) => {
+router.get('/holders/:asset', async (req, res) => {
+    Util.log("Holders Fetching: " + req.params.asset);
+    var data = await lookup.getAsset(req.params.asset);
+    if (data) {
+        var issuer = data.issuer;
+        var supply = data.supply.initial;
+        var current = data.supply.current;
+        
+        var addresses = Object.keys(data.holders);
+        var quantity = addresses.length;
+        var holders = [];
+
+        addresses.forEach(addr => {
+            holders.push({address: addr, amount: data.holders[addr]});
+        });
+               
+        Util.log("Holders Fetched: " + req.params.asset);
+        Util.log({ asset: req.params.asset, quantity, holders, issuer, supply, current })
+        res.send({ asset: req.params.asset, quantity, holders, issuer, supply, current });
+    } else {
+        Util.log("Holders Not Fetched: " + req.params.asset);
+        res.send({ error: "server error" });
+    }
+});
+router.get("/sync", async (req, res) => {
     Sync();
-})
-router.get("/address/:address", (req, res) => {
-    Util.HttpsGet('https://digiexplorer.info/api/address/' + req.params.address, (data) => {
-        if (data == null)
-            var address = { error: "Server error" };
-        else if (!data.error) {
-            var address = {
-                page: data.page,
-                pages: data.totalPages,
-                address: data.addrStr,
-                valueBalance: data.balance,
-                valueReceived: data.totalReceived,
-                valueSent: data.totalSent,
-                unconfirmedValue: data.unconfirmedBalance,
-                transactions: data.transactions
-            };
-        } else {
-            var address = data;
-        }
-        res.send(address);
-    });
 });
 
 module.exports = router;

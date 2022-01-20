@@ -36,7 +36,15 @@
 								</tr>
 								<tr>
 									<th>
-										<h5 class="fw-bold">Ussued block:</h5>
+										<h5 class="fw-bold">Creator:</h5>
+									</th>
+									<td>
+										<h5 id="asset-creator"></h5>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										<h5 class="fw-bold">Issuance height:</h5>
 									</th>
 									<td>
 										<h5><a class="link" target="_blank" href="<?php echo EXPLORER ?>/block/<?php echo $digiAsset->Height ?>"><?php echo $digiAsset->Height ?></a></h5>
@@ -56,6 +64,22 @@
 									</th>
 									<td>
 										<h5 id="asset-n-holders"></h5>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										<h5 class="fw-bold">Initial Supply:</h5>
+									</th>
+									<td>
+										<h5 id="asset-supply"></h5>
+									</td>
+								</tr>
+								<tr>
+									<th>
+										<h5 class="fw-bold">Current Supply:</h5>
+									</th>
+									<td>
+										<h5 id="asset-current"></h5>
 									</td>
 								</tr>
 							</tbody>
@@ -136,7 +160,7 @@
 
 	<script src="/assets/vendor/jquery/jquery.js"></script>
 	<script src="/assets/vendor/bootstrap/bootstrap.js"></script>
-	<script src="/assets/js/asset.js"></script>
+	<script src="/assets/js/assets.js"></script>
 	<script>
 		setTimeout(async () => {
 			var ipfs = [

@@ -13,6 +13,9 @@ class DigiAssetModel extends DatabaseModel
 
 	public $AssetID;
 	public $Height;
+	public $Name;
+	public $Creator;
+	public $Description;
 
 	private function FillData($destiny, $origin)
 	{
@@ -24,6 +27,15 @@ class DigiAssetModel extends DatabaseModel
 
 		if (isset($origin['Height']))
 			$destiny->Height = $origin['Height'];
+
+		if (isset($origin['Name']))
+			$destiny->Name = $origin['Name'];
+
+		if (isset($origin['Creator']))
+			$destiny->Creator = $origin['Creator'];
+
+		if (isset($origin['Description']))
+			$destiny->Description = $origin['Description'];
 	}
 
 	public function Create($AssetID, $Height)

@@ -4,9 +4,9 @@
     "description": "DigiAssets v3 explorer api",
     "main": "src/index.js",
     "dependencies": {
+        "digiasset-lookup": "^1.1.3",
         "express": "^4.17.1",
-        "mysql": "^2.18.1",
-        "sync-mysql": "^3.0.1"
+        "mysql": "^2.18.1"
     },
     "keywords": [
         "digiassets",

@@ -1,0 +1,1 @@
+AWS_USER= AWS_PASS= NODE_ENV=production PORT=3000 DB_HOST=localhost DB_NAME=digiassets_network DB_USER=user DB_PASS= node src/index.js
