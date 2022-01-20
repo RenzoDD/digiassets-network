@@ -28,7 +28,11 @@ class WebSiteController
             $cids = $cids->ReadDigiAssetID($digiAsset->DigiAssetID);
 
             $pageName = "/asset";
-            $title = "DigiAssets Explorer - $assetID";
+
+            if ($digiAsset->Name != null)
+                $title = "DigiAssets Explorer - $digiAsset->Name";
+            else
+                $title = "DigiAssets Explorer - $assetID";
             $description = "Check this DigiAsset!";
 
             if (sizeof($cids) > 0) {
