@@ -12,6 +12,9 @@ CREATE TABLE DigiAssets (
 
     AssetID		VARCHAR(38)	NOT NULL	UNIQUE,
 	Height		INTEGER		NOT NULL,
+    Name        TEXT,
+    Creator     TEXT,
+    Description TEXT,
 	
     PRIMARY KEY (DigiAssetID)
 ) //
@@ -75,4 +78,21 @@ BEGIN
     FROM    DigiAssets AS DA
     ORDER BY DA.Height DESC
     LIMIT   1;
+END //
+
+DROP PROCEDURE IF EXISTS DigiAssets_Update_Data // 
+CREATE PROCEDURE DigiAssets_Update_Data ( IN DigiAssetID VARCHAR(64), IN Name TEXT, IN Creator TEXT, IN Description TEXT )
+BEGIN
+    UPDATE DigiAssets AS DA
+    SET DA.Name = Name
+        ,DA.Creator = Creator
+        ,DA.Description = Description
+    WHERE DA.DigiAssetID = DigiAssetID;
+
+    SELECT  DA.*
+    FROM    DigiAssets AS DA
+    WHERE   DA.Name = Name
+            AND DA.Creator = Creator
+            AND DA.Description = Description
+            AND DA.DigiAssetID = DigiAssetID;
 END //

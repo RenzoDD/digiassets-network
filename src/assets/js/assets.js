@@ -44,6 +44,15 @@ function FetchHolders(api, assetID) {
 
                 var hold = document.getElementById("asset-n-holders");
                 hold.innerHTML = holders.holders.length;
+
+                var creator = document.getElementById("asset-creator");
+                creator.innerHTML = `<a class="link" href="/address/${holders.issuer}">${holders.issuer}</a>`;
+
+                var supply = document.getElementById("asset-supply");
+                supply.innerHTML = holders.supply;
+
+                var current = document.getElementById("asset-current");
+                current.innerHTML = holders.current;
             }
         }
     });

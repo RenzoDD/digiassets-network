@@ -58,17 +58,13 @@
 						<?php $address = WALLETS[0]["ADDRESS"] ?>
 						<label>Personal address</label>
 						<a href="<?php echo "digibyte:$address" ?>">
-							<img src="<?php echo "/assets/img/addresses/$address.png" ?>" width="150px" class="d-block mx-auto">
+							<img address="<?php echo "$address" ?>" size="150" class="DigiQR d-block mx-auto" logo="2" r="0">
 						</a>
 						<small style="margin-left: -100%; margin-right: -100%;">
 							<a href="<?php echo "digibyte:$address" ?>" class="link">
 								<?php echo $address ?>
 							</a>
 						</small>
-						<div class="progress">
-							<div id="<?php echo "$address-confirmed" ?>" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
-							<div id="<?php echo "$address-unconfirmed" ?>" class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
-						</div>
 					</div>
 				</div>
 
@@ -107,7 +103,7 @@
 		];
 		var time = <?php echo (isset($time) ? $time : 0) ?>;
 	</script>
-	<script src="/assets/js/api.js"></script>
+	<script src="/assets/js/digiqr.js"></script>
 </body>
 
 </html>

@@ -34,7 +34,6 @@
 							<input type="text" class="form-control" placeholder="Search for DigiAsset ID or address" id="search" required>
 							<button onclick="search()" class="btn btn-success"><i class="bi bi-search"></i></button>
 						</div>
-						<small>Address search might work only for DigiAsssets v2</small>
 					</div>
 				</div>
 			</div>

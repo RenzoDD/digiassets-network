@@ -2,7 +2,7 @@
 
 define("DB_HOST", "localhost"); //Database server address
 define("DB_NAME", "digiassets_network"); //Database name
-define("DB_USER", "root"); //Database user
+define("DB_USER", "user"); //Database user
 define("DB_PASS", ""); //Database password
 
 define("GA_CODE", "UA-196489128-3"); //Universal Analytics Code

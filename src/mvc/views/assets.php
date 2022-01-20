@@ -22,17 +22,30 @@
 		<h2 class="text-center">
 			Showing asets <b><?php echo (($page - 1) * $cant + 1) ?></b> to <b><?php echo ($page * $cant) ?></b> of <b><?php echo $quantity ?></b>
 		</h2>
+
 		<div class="my-3 text-center">
 			<div class="row justify-content-center">
 				<div class="col-md-8">
-					<div class="list-group">
-						<a href="#" class="list-group-item list-group-item-action active" aria-current="true">
-							Page <?php echo $page ?>
-						</a>
-						<?php foreach ($digiAssets as $da) : ?>
-							<a href="/asset/<?php echo $da->AssetID ?>" class="list-group-item list-group-item-action text-break"><?php echo $da->AssetID ?></a>
-						<?php endforeach ?>
-					</div>
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">AssetID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Creator</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($digiAssets as $da) : ?>
+								<tr class="clickable-row" data-href="/asset/<?php echo $da->AssetID ?>" style="cursor: pointer;">
+									<td><?php echo $da->AssetID ?></td>
+									<td><?php echo $da->Name ?></td>
+									<td><?php echo $da->Creator ?></td>
+								</tr>
+							<?php endforeach ?>
+						</tbody>
+					</table>
+
 				</div>
 			</div>
 		</div>
@@ -61,6 +74,13 @@
 	<script src="/assets/vendor/jquery/jquery.js"></script>
 	<script src="/assets/vendor/bootstrap/bootstrap.js"></script>
 	<script src="/assets/js/main.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$(".clickable-row").click(function() {
+				window.location = $(this).data("href");
+			});
+		});
+	</script>
 </body>
 
 </html>
