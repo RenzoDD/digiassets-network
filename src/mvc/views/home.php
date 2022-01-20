@@ -56,7 +56,7 @@
 			<div class="col-md-6">
 				<h3><i class="bi bi-box"></i> Is the data stored in a blockchain?</h3>
 				<p>
-					No, with DigiAssets v3 the network uses the <a class="link" href="https://ipfs.io/" target="_blank">IFPS Protocol</a> to store the metaDada asocieate with every asset. Only the information hash is stored in the blockchain, you can read more about it in the <a class="link" href="https://github.com/DigiByte-Core/DigiAssets-Protocol-Specifications/wiki" target="_blank">DigiAsset Protocol GitHub</a>.
+					No, with DigiAssets v3 the network uses the <a class="link" href="https://ipfs.io/" target="_blank">IPFS Protocol</a> to store the metadata associated with every asset. Only the information hash is stored in the blockchain, you can read more about it in the <a class="link" href="https://github.com/DigiByte-Core/DigiAssets-Protocol-Specifications/wiki" target="_blank">DigiAsset Protocol GitHub</a>.
 				</p>
 			</div>
 			<div class="col-md-6">
