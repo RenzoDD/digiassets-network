@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" class="h-100" prefix="og: http://ogp.me/ns#">
+
+<head>
+	<%- include('./partials/meta') %>
+	<%- include('./partials/analytics') %>
+
+	<link href="/vendor/bootstrap.css" rel="stylesheet">
+	<link href="/vendor/bootstrap-icons.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
+
+	<link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+	<title><%- info.title %></title>
+</head>
+
+<body class="d-flex flex-column h-100">
+	<%- include('./partials/header') %>
+
+	<main class="container mt-5">
+		<h1 class="text-center mb-4"><b>DigiAsset Directory</b></h1>
+		<hr>
+		<div class="table-responsive mb-3">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th scope="col">AssetID</th>
+						<th scope="col">Name</th>
+						<th scope="col">Creator</th>
+						<th scope="col">Royalties</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% assets.forEach(asset => { %>
+					<tr class="clickable-row" data-href="/asset/<%- asset.AssetID %>" style="cursor: pointer;">
+						<td><%- asset.AssetID %></td>
+						<td><%- asset.Name %></td>
+						<td><%- asset.Creator %></td>
+						<td><%- asset.Royalties %></td>
+					</tr>
+					<% }) %>
+				</tbody>
+				<caption>
+					Page <%- page %> of <%- pages %>
+				</caption>
+			</table>
+		</div>
+		<nav>
+			<ul class="pagination justify-content-center">
+				<li class="page-item <%- page == 1 ? "disabled" : "" %>">
+					<a class="page-link" href="/assets/<%- page - 1 %>">Previous</a>
+				</li>
+				<% for (var i = pageStart; i <= pageEnd; i++) { %>
+					<li class="page-item<%- i == page ? " active" : "" %>">
+						<a class="page-link" href="/assets/<%- i %>">
+							<%- i %>
+						</a>
+					</li>
+				<% } %>
+				<?php endfor ?>
+				<li class="page-item <%- page == pages ? "disabled" : "" %>">
+					<a class="page-link" href="/assets/<%- page + 1 %>">Next</a>
+				</li>
+			</ul>
+		</nav>
+	</main>
+
+	<%- include('./partials/footer') %>
+
+	<script src="/vendor/jquery.js"></script>
+	<script src="/vendor/bootstrap.js"></script>
+	<script src="/js/main.js"></script>
+	<script>
+		jQuery(document).ready(function ($) {
+			$(".clickable-row").click(function () {
+				window.location = $(this).data("href");
+			});
+		});
+	</script>
+</body>
+
+</html>

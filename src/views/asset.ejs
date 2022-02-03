@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en" class="h-100" prefix="og: http://ogp.me/ns#">
+
+<head>
+	<%- include('./partials/meta') %>
+	<%- include('./partials/analytics') %>
+
+	<link href="/vendor/bootstrap.css" rel="stylesheet">
+	<link href="/vendor/bootstrap-icons.css" rel="stylesheet">
+	<link href="/css/style.css" rel="stylesheet">
+
+	<link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+	<title><%- info.title %></title>
+</head>
+
+<body class="d-flex flex-column h-100">
+	<%- include('./partials/header') %>
+
+	<main class="container mt-5">
+		<h1 class="text-center mb-4"><b><%- MetaData.assetName %></b></h1>
+		<hr>
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				<h3><b>Information</b></h3>
+				<div class="list-group list-group-numbered">
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Asset ID</div>
+							<%- DigiAsset.assetId %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Issuance Address</div>
+							<a class="link" href="/address/<%- DigiAsset.issuer %>">
+								<%- DigiAsset.issuer %>
+							</a>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Issuance height</div>
+							<a class="link" href="https://digibyteblockexplorer.com/block/<%- DigiAsset.firstUsed %>" target="_blank">
+								<%- DigiAsset.firstUsed %>
+							</a>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Issuer</div>
+							<%- MetaData.issuer || "Unknown" %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Asset Name</div>
+							<%- MetaData.assetName %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Description</div>
+							<p class="mb-0">
+								<%- MetaData.description || "No description" %>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-3">
+				<div class="d-flex flex-column h-100">
+					<h3><b>Image</b></h3>
+					<div class="text-center">
+						<img src="<%- info.image %>" class="img-fluid w-50 mb-3">
+					</div>
+					<% if (interactive || MetaData.site) { %>
+					<div class="text-center mt-auto">
+						<% if (interactive) { %>
+						<button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#interactiveModal">
+							<i class="bi bi-collection-play-fill"></i>
+							Play interactive content
+						</button>
+						<div class="modal fade h-100" id="interactiveModal" tabindex="-1">
+							<div class="modal-dialog  mx-auto">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title">Interactive Content</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+									</div>
+									<div class="modal-body">
+										<iframe src="<%- interactive %>" width="100%" height="100%"></iframe>
+									</div>
+								</div>
+							</div>
+						</div>
+						<% } %>
+						<% if (MetaData.site) { %>
+						<a type="button" class="btn btn-primary mb-3" href="<%- MetaData.site.url %>" target="_blank">
+							<i class="bi bi-globe2"></i>
+							Visit website
+						</a>
+						<% } %>
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				<h3><b>Content</b></h3>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th></th>
+								<th scope="col">Name</th>
+								<th scope="col">Type</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% for (var i = 0; i < MetaData.urls.length; i++) { %>
+							<tr>
+								<td><i class="bi bi-<%- MetaData.urls[i].icon %>"></i></td>
+								<th>
+									<a class="link" href="<%- MetaData.urls[i].url %>" target="_blank">
+										<%- MetaData.urls[i].name %>
+									</a>
+								</th>
+								<td><%- MetaData.urls[i].mimeType %></td>
+							</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="col-md-6 mb-3">
+				<h3><b>Metadata</b></h3>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Transaction</th>
+								<th scope="col">IPFS CID</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% DigiAsset.metadata.forEach(data => { %>
+							<tr>
+								<th class="text-truncate" style="max-width: 150px;">
+									<a class="link" href="https://digibyteblockexplorer.com/tx/<%- data.txid %>" target="_blank">
+										<%- data.txid %>
+									</a>
+								</th>
+								<th class="text-truncate" style="max-width: 150px;">
+									<a class="link" href="https://cloudflare-ipfs.com/ipfs/<%- data.cid %>" target="_blank">
+										<%- data.cid %>
+									</a>
+								</th>
+							</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 mb-3">
+				<h3><b>Tokenomics</b></h3>
+				<div class="list-group list-group-numbered">
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Initial supply</div>
+							<%- DigiAsset.supply.initial %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Current supply</div>
+							<%- DigiAsset.supply.current %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Holders</div>
+							<%- Object.keys(DigiAsset.holders).length %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 mb-3">
+				<h3><b>Rules</b></h3>
+				<div class="list-group list-group-numbered">
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Royalties</div>
+							<%- royalties %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Expiration block</div>
+							<%- rules.expires ? rules.expires : "None" %>
+						</div>
+					</div>
+					<div class="list-group-item d-flex justify-content-between align-items-start">
+						<div class="ms-2 me-auto text-break">
+							<div class="fw-bold">Deflation amount</div>
+							<%- rules.deflate ? rules.deflate : "None" %>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 mb-3">
+				<h3><b>Holders</b></h3>
+				<div class="table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Address</th>
+								<th scope="col">Holdings</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% holders.forEach(holder => { %>
+							<tr>
+								<th scope="row">
+									<a class="link" href="/address/<%- holder %>">
+										<%- holder %>
+									</a>
+								</th>
+								<td><%- DigiAsset.holders[holder] %></td>
+							</tr>
+							<% }); %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<%- include('./partials/footer') %>
+
+	<script src="/vendor/jquery.js"></script>
+	<script src="/vendor/bootstrap.js"></script>
+	<script src="/js/main.js"></script>
+</body>
+
+</html>

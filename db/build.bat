@@ -1,1 +1,0 @@
-type *.sql > script.txt

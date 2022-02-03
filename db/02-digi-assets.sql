@@ -8,15 +8,13 @@ DELIMITER //
 
 DROP TABLE IF EXISTS DigiAssets //
 CREATE TABLE DigiAssets (
-	DigiAssetID	INTEGER		NOT NULL    AUTO_INCREMENT,
-
     AssetID		VARCHAR(38)	NOT NULL	UNIQUE,
 	Height		INTEGER		NOT NULL,
     Name        TEXT,
     Creator     TEXT,
-    Description TEXT,
+    Royalties   TEXT,
 	
-    PRIMARY KEY (DigiAssetID)
+    PRIMARY KEY (AssetID)
 ) //
 
 DROP PROCEDURE IF EXISTS DigiAssets_Create //
@@ -30,24 +28,6 @@ BEGIN
     WHERE   DA.AssetID = AssetID
             AND DA.Height = Height
 	LIMIT   1;
-END //
-
-DROP PROCEDURE IF EXISTS DigiAssets_Read_DigiAssetID //
-CREATE PROCEDURE DigiAssets_Read_DigiAssetID ( IN DigiAssetID INTEGER )
-BEGIN
-    SELECT  DA.*
-    FROM    DigiAssets AS DA
-    WHERE   DA.DigiAssetID = DigiAssetID
-    LIMIT   1;
-END //
-
-DROP PROCEDURE IF EXISTS DigiAssets_Read_AssetID //
-CREATE PROCEDURE DigiAssets_Read_AssetID ( IN AssetID VARCHAR(64) )
-BEGIN
-    SELECT  DA.*
-    FROM    DigiAssets AS DA
-    WHERE   DA.AssetID = AssetID
-    LIMIT   1;
 END //
 
 DROP PROCEDURE IF EXISTS DigiAssets_Read_Quantity //
@@ -81,18 +61,18 @@ BEGIN
 END //
 
 DROP PROCEDURE IF EXISTS DigiAssets_Update_Data // 
-CREATE PROCEDURE DigiAssets_Update_Data ( IN DigiAssetID VARCHAR(64), IN Name TEXT, IN Creator TEXT, IN Description TEXT )
+CREATE PROCEDURE DigiAssets_Update_Data ( IN AssetID VARCHAR(64), IN Name TEXT, IN Creator TEXT, IN Royalties TEXT )
 BEGIN
     UPDATE DigiAssets AS DA
     SET DA.Name = Name
         ,DA.Creator = Creator
-        ,DA.Description = Description
-    WHERE DA.DigiAssetID = DigiAssetID;
+        ,DA.Royalties = Royalties
+    WHERE DA.AssetID = AssetID;
 
     SELECT  DA.*
     FROM    DigiAssets AS DA
     WHERE   DA.Name = Name
             AND DA.Creator = Creator
-            AND DA.Description = Description
-            AND DA.DigiAssetID = DigiAssetID;
+            AND DA.Royalties = Royalties
+            AND DA.AssetID = AssetID;
 END //
