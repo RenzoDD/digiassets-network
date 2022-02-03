@@ -11,16 +11,26 @@
 
 :root {
     --HEADER: #002352;
-    --MENU-NORMAL: #693510;
-    --MENU-HOVER: #5c2f0e;
     --MENU-FONT-NORMAL: #FFFFFF;
     --MENU-FONT-HOVER: #FFFFFF;
+
+    --bg-color: hsl(256,33,10);
+    --dot-color: hsl(256,33,70);
+    
+    --dot-size: 1px;
+    --dot-space: 22px;
 }
 
 body {
     font-family: Font;
+    /*
     background-image: url("../img/background.png");
     background-repeat: repeat;
+	*/
+    background-color: #fff;
+    background-image: radial-gradient(circle, #EFEFEF 10%, transparent 10%), radial-gradient(circle, #EFEFEF 10%, transparent 10%);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
 }
 
 .navbar {
@@ -69,6 +79,20 @@ body {
     overflow-y: auto;
 }
 
-.img-wrapper>img {
+.img-wrapper > img {
     position: relative;
+}
+ 
+.modal {
+    padding: 0 !important; // override inline padding-right added from js
+}
+
+.modal .modal-dialog {
+    width: 90%;
+    max-width: none;
+    height: 90%;
+}
+
+.modal .modal-content {
+    height: 100%;
 }
