@@ -73,7 +73,7 @@
 					<div class="text-center">
 						<img src="<%- info.image %>" class="img-fluid w-50 mb-3">
 					</div>
-					<% if (interactive || MetaData.site) { %>
+					<% if (interactive || MetaData.site || auction) { %>
 					<div class="text-center mt-auto">
 						<% if (interactive) { %>
 						<button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#interactiveModal">
@@ -98,6 +98,12 @@
 						<a type="button" class="btn btn-primary mb-3" href="<%- MetaData.site.url %>" target="_blank">
 							<i class="bi bi-globe2"></i>
 							Visit website
+						</a>
+						<% } %>
+						<% if (auction) { %>
+						<a type="button" class="btn btn-danger mb-3" href="https://auction.digiassetx.com/#<%- auction.address %>" target="_blank">
+							<i class="bi bi-bullseye"></i>
+							Live for auction
 						</a>
 						<% } %>
 					</div>

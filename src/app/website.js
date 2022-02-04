@@ -75,9 +75,14 @@ router.get('/asset/:AssetID', async (req, res) => {
     }
 
     // Get metadata
-    var MetaData = (await HTTPS.Get("https://cloudflare-ipfs.com/ipfs/" + DigiAsset.metadata[0].cid));
-    MetaData = MetaData ? MetaData.data ? MetaData.data : {} : {};
+    var fetchData = await Promise.all([HTTPS.Get("https://cloudflare-ipfs.com/ipfs/" + DigiAsset.metadata[0].cid), HTTPS.Get("https://auction.digiassetx.com/sales.json")] );
+    var MetaData = fetchData[0] ? fetchData[0].data ? fetchData[0].data : {} : {};
+    var auctions = fetchData[1] ? fetchData[1] : [];
 
+    console.log(fetchData[0])
+
+    var auction = auctions.filter(x => x.assets[DigiAsset.assetId]);
+    auction = auction.length > 0 ? auction[0] : null;
 
     // Get icon
     var image = null, interactive = null, thumbnail = null;
@@ -94,7 +99,7 @@ router.get('/asset/:AssetID', async (req, res) => {
 
     var info = {
         title: "DigiAsset - " + MetaData.assetName,
-        description: MetaData.description,
+        description: (auction) ? "This asset is available in auction" :  MetaData.description,
         image,
         thumbnail,
         path: "/asset"
@@ -176,7 +181,7 @@ router.get('/asset/:AssetID', async (req, res) => {
     MySQL.Disconnect();
 
 
-    return res.render('asset', { info, DigiAsset, MetaData, royalties, holders, interactive, rules });
+    return res.render('asset', { info, DigiAsset, MetaData, royalties, holders, interactive, rules, auction });
 });
 
 router.get('/address/:Address', async (req, res) => {
