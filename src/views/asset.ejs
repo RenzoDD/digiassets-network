@@ -95,7 +95,7 @@
 						</div>
 						<% } %>
 						<% if (MetaData.site) { %>
-						<a type="button" class="btn btn-primary mb-3" href="<%- MetaData.site.url %>" target="_blank">
+						<a type="button" class="btn btn-primary mb-3" href="<%- MetaData.site.url.replace("restricted.json", "") %>" target="_blank">
 							<i class="bi bi-globe2"></i>
 							Visit website
 						</a>
